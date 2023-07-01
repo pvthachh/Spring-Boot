@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Login</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif;" class="my-bg">
+<div class="container2">
+       <div id="header">
+            <ul id="nav">
+                <li><a href="/home"> <i class="fas fa-home"></i> HOME </a>
+                </li>
+                <li style="float: right;">
+                	<div th:if="${session.userLogin == null}">
+						<a style="color: #fff;" href="/signup"> <i class="fas fa-user-plus"></i> SIGNUP</a>
+					</div>               
+                </li>
+                
+                <li style="float: right;">
+                	<div th:if="${session.userLogin == null}">
+						<a style="color: #fff;" href="/login"> <i class="fas fa-sign-in-alt"></i> LOGIN </a>					
+					</div>               
+                </li>
+
+                <li style="float: right;">
+                	<div th:if="${session.userLogin != null}">
+						<a style="color: #fff;" href="/logout"> <i class="fas fa-sign-out-alt"></i> LOGOUT </a>
+						
+					</div>                  
+                </li>
+                
+				<li style="float: right;">
+                	<div th:if="${session.userLogin != null && session.userLogin.role != 'ADMIN'}">
+						<a style="color: #fff;" href="/cart"> <i class="fas fa-shopping-cart"></i> CART </a>						
+					</div>
+                </li>
+                
+				<li>
+					<div th:if="${session.userLogin != null && session.userLogin.role == 'ADMIN'}">
+						<a style="color: #fff;" href="#"> <i class="fas fa-briefcase"></i> MANAGE </a>
+						
+                    	<ul class="subnav">
+                        	<li><a href="/manage/book">MANAGE-BOOK</a></li>
+                        	<li><a href="/manage/user">MANAGE-USER</a></li>
+                    	</ul>
+					</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <
+    <div id="wrapper">
+        <form th:object="${user}" th:action="@{/login/check}" th:method="post" id="form-login">
+            <h1 class="form-heading">LOGIN FORM</h1>
+            <div class="form-group">
+                <i class="far fa-user"></i>
+                <input class="form-control form-input" type="text" name="username" th:value="${user.username}" required placeholder="Username">              
+            </div>
+            <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input class="form-control form-input" type="password" name="password" th:value="${user.password}" required placeholder="Password">
+                <div id="eye">
+                    <i class="far fa-eye"></i>
+                </div>
+            </div>
+            <div th:if="${error == 'true'}">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                     <div style="color: white")>
+                          	<i class="fa-solid fa-triangle-exclamation"></i>
+                            Wrong username or password!
+                     </div>
+                </div>
+            </div>
+
+            <input type="submit" value="LOGIN" class="form-submit">
+        </form>
+    </div>
+    
+</body>
+<style>
+    body{
+        background-size: cover;
+        background-position-y: -80px;
+        font-size: 16px;
+        background-color: paleturquoise;
+    }
+    #wrapper{
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #form-login{
+        max-width: 400px;
+        background: rgba(0, 0, 0 , 0.8);
+        flex-grow: 1;
+        padding: 30px 30px 40px;
+        box-shadow: 0px 0px 17px 2px rgba(255, 255, 255, 0.8);
+    }
+    .form-heading{
+        font-size: 25px;
+        color: #f5f5f5;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .form-group{
+        border-bottom: 1px solid #fff;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        display: flex;
+    }
+    .form-group i{
+        color: #fff;
+        font-size: 14px;
+        padding-top: 5px;
+        padding-right: 10px;
+    }
+    .form-input{
+        background: transparent;
+        border: 0;
+        outline: 0;
+        color: #f5f5f5;
+        flex-grow: 1;
+    }
+    .form-input::placeholder{
+        color: #f5f5f5;
+    }
+    #eye i{
+        padding-right: 0;
+        cursor: pointer;
+    }
+    
+    .form-submit{
+        background: transparent;
+        border: 1px solid #f5f5f5;
+        color: #fff;
+        width: 100%;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        transition: 0.25s ease-in-out;
+        margin-top: 30px;
+    }
+    .form-submit:hover{
+        border: 1px solid #54a0ff;
+    }
+</style>
+</html>

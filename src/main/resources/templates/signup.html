@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    
+    <style>
+		.my-bg {
+			background-color: paleturquoise;
+		}
+	</style>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;" class="my-bg">
+	<div class="container2">
+       <div id="header">
+            <ul id="nav">
+                <li><a href="/home"> <i class="fas fa-home"></i> HOME </a>
+                </li>
+                <li style="float: right;">
+                	<div th:if="${session.userLogin == null}">
+						<a style="color: #fff;" href="/signup"> <i class="fas fa-user-plus"></i> SIGNUP</a>
+					</div>               
+                </li>
+                
+                <li style="float: right;">
+                	<div th:if="${session.userLogin == null}">
+						<a style="color: #fff;" href="/login"> <i class="fas fa-sign-in-alt"></i> LOGIN </a>					
+					</div>               
+                </li>
+
+                <li style="float: right;">
+                	<div th:if="${session.userLogin != null}">
+						<a style="color: #fff;" href="/logout"> <i class="fas fa-sign-out-alt"></i> LOGOUT </a>
+						
+					</div>                  
+                </li>
+                
+				<li style="float: right;">
+                	<div th:if="${session.userLogin != null && session.userLogin.role != 'ADMIN'}">
+						<a style="color: #fff;" href="/cart"> <i class="fas fa-shopping-cart"></i> CART </a>						
+					</div>
+                </li>
+                
+				<li>
+					<div th:if="${session.userLogin != null && session.userLogin.role == 'ADMIN'}">
+						<a style="color: #fff;" href="#"> <i class="fas fa-briefcase"></i> MANAGE </a>
+						
+                    	<ul class="subnav">
+                        	<li><a href="/manage/book">MANAGE-BOOK</a></li>
+                        	<li><a href="/manage/user">MANAGE-USER</a></li>
+                    	</ul>
+					</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 mt-1 p-5 rounded p5 bg-white">
+                <h2 class="text-center">SIGN UP</h2>
+                <form th:object="${user}" th:action="@{/signup/save}" th:method="post">
+                    <div class="mb-2">
+                        <label class="form-label">First Name</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="text" name="first_name" th:value="${user.first_name}" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Last Name</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="text" name="last_name" th:value="${user.last_name}" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Email</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="email" name="email" th:value="${user.email}" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Username</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="text" name="username" th:value="${user.username}" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Password</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="password" name="password" th:value="${user.password}" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Repeat Password</label>&#160;
+                        <span style="color: red">&#160;(*)</span>
+                        <input class="form-control" type="password" name="repeatpassword" required>
+                    </div>
+                    <div th:if="${existed == 'true'}">
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <div>
+                            	<i class="fa-solid fa-triangle-exclamation"></i>
+                                This Account is alreadly existed!
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${repeatnotequal == 'true'}">
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <div>
+                            	<i class="fa-solid fa-triangle-exclamation"></i>
+                                Wrong repeat password!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" type="submit" style="text-align: center;"><i class="fas fa-user-plus"></i>&#160; Create New Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
